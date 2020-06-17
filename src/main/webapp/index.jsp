@@ -26,6 +26,28 @@
             integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
 
     <title>Tickets sale</title>
+
+    <script>
+        function validate() {
+            var result = false;
+            var places = document.getElementsByName("place");
+
+            for (var i = 0; i < places.length; i++) {
+                if (places[i].checked === true) {
+                    result = true;
+                    break;
+                }
+            }
+
+            if (!result) {
+                alert("Необходимо выбрать одно или более мест!");
+            } else {
+                window.location.href = "payment.do";
+            }
+            return result;
+        }
+    </script>
+
 </head>
 <body>
 
@@ -46,27 +68,28 @@
             <tbody>
             <tr>
                 <th>1</th>
-                <td><input type="radio" name="place" value="11"> Ряд 1, Место 1</td>
-                <td><input type="radio" name="place" value="11"> Ряд 1, Место 1</td>
-                <td><input type="radio" name="place" value="11"> Ряд 1, Место 1</td>
+                <td><input type="checkbox" name="place" value="11"> Ряд 1, Место 1</td>
+                <td><input type="checkbox" name="place" value="12"> Ряд 1, Место 2</td>
+                <td><input type="checkbox" name="place" value="13"> Ряд 1, Место 3</td>
             </tr>
             <tr>
                 <th>2</th>
-                <td><input type="radio" name="place" value="11"> Ряд 2, Место 1</td>
-                <td><input type="radio" name="place" value="11"> Ряд 2, Место 1</td>
-                <td><input type="radio" name="place" value="11"> Ряд 2, Место 1</td>
+                <td><input type="checkbox" name="place" value="21"> Ряд 2, Место 1</td>
+                <td><input type="checkbox" name="place" value="22"> Ряд 2, Место 2</td>
+                <td><input type="checkbox" name="place" value="23"> Ряд 2, Место 3</td>
             </tr>
             <tr>
                 <th>3</th>
-                <td><input type="radio" name="place" value="11"> Ряд 3, Место 1</td>
-                <td><input type="radio" name="place" value="11"> Ряд 3, Место 1</td>
-                <td><input type="radio" name="place" value="11"> Ряд 3, Место 1</td>
+                <td><input type="checkbox" name="place" value="31"> Ряд 3, Место 1</td>
+                <td><input type="checkbox" name="place" value="32"> Ряд 3, Место 2</td>
+                <td><input type="checkbox" name="place" value="33"> Ряд 3, Место 3</td>
             </tr>
             </tbody>
         </table>
     </div>
     <div class="row float-right">
-        <button type="button" class="btn btn-success">Оплатить</button>
+        <button type="button" class="btn btn-success" onclick="return validate();">Оплатить
+        </button>
     </div>
 </div>
 </body>
