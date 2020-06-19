@@ -1,4 +1,4 @@
-CREATE TABLE public.halls
+CREATE TABLE public.movieSession
 (
   id serial PRIMARY KEY NOT NULL,
   data date NOT NULL,

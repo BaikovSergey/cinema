@@ -8,7 +8,7 @@
   <display-name>Archetype Created Web Application</display-name>
   <servlet>
     <servlet-name>IndexServlet</servlet-name>
-    <servlet-class>ru.job4j.servlets.IndexServlet</servlet-class>
+    <servlet-class>ru.job4j.servlets.presentation.IndexServlet</servlet-class>
   </servlet>
   <servlet-mapping>
     <servlet-name>IndexServlet</servlet-name>
@@ -16,7 +16,7 @@
   </servlet-mapping>
   <servlet>
     <servlet-name>PaymentServlet</servlet-name>
-    <servlet-class>ru.job4j.servlets.PaymentServlet</servlet-class>
+    <servlet-class>ru.job4j.servlets.presentation.PaymentServlet</servlet-class>
   </servlet>
   <servlet-mapping>
     <servlet-name>PaymentServlet</servlet-name>
