@@ -9,7 +9,36 @@
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
 
-    <title>Hello, world!</title>
+    <title>Payment</title>
+
+    <script>
+        function validate() {
+            var result = false;
+            var fields = [document.getElementById("username"), document.getElementById("phone")];
+
+            for (var i = 0; i < fields.length; i++) {
+                if (fields[i].value === "") {
+                    result = false;
+                    break;
+                }
+            }
+
+            if (!result) {
+                for (var j = 0; j < fields.length; j++) {
+                    if (fields[j].value === "") {
+                        alert("Please fill this field: " + $(fields[j]).attr('name'));
+                    }
+                }
+            }
+            return result;
+        }
+
+        $(document).ready(function () {
+            var selectedSeats = $(this).attr("seats");
+            $("#SelectedSeats").after("<h3>"+ selectedSeats +"</h3>");
+        });
+
+    </script>
 </head>
 <body>
 <!-- Optional JavaScript -->
@@ -19,22 +48,20 @@
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
 
 <div class="container">
-    <div class="row pt-3">
-        <h3>
-            Вы выбрали ряд 1 место 1, Сумма : 500 рублей.
-        </h3>
+    <div class="row pt-3" id="SelectedSeats">
+
     </div>
     <div class="row">
         <form>
             <div class="form-group">
                 <label for="username">ФИО</label>
-                <input type="text" class="form-control" id="username" placeholder="ФИО">
+                <input type="text" class="form-control" name="ФИО" id="username" placeholder="ФИО">
             </div>
             <div class="form-group">
                 <label for="phone">Номер телефона</label>
-                <input type="text" class="form-control" id="phone" placeholder="Номер телефона">
+                <input type="text" class="form-control" name="Номер телефона" id="phone" placeholder="Номер телефона">
             </div>
-            <button type="button" class="btn btn-success">Оплатить</button>
+            <button type="submit" class="btn btn-success" onclick="return validate();">Оплатить</button>
         </form>
     </div>
 </div>

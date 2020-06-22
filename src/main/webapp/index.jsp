@@ -30,7 +30,16 @@
     <script>
         function validate() {
             var result = false;
+            var selectedSeats = [];
             var places = document.getElementsByName("place");
+            var index = 0;
+            for (var j = 0; j < places.length; j++) {
+
+                if (places[j].checked === true) {
+                    selectedSeats[index] = places[j].value;
+                    index++;
+                }
+            }
 
             for (var i = 0; i < places.length; i++) {
                 if (places[i].checked === true) {
@@ -42,7 +51,7 @@
             if (!result) {
                 alert("Необходимо выбрать одно или более мест!");
             } else {
-                window.location.href = "payment.do";
+                window.location.href = "payment.do?seats=" + selectedSeats;
             }
             return result;
         }
