@@ -2,22 +2,32 @@ package ru.job4j.servlets.domain;
 
 public class Seat {
 
-    private String name;
+    private String row;
+    private String seat;
     private String price;
     private boolean occupied;
 
-    public Seat(String name, String price, boolean occupied) {
-        this.name = name;
+    public Seat(String row, String seat, String price, boolean occupied) {
+        this.row = row;
+        this.seat = seat;
         this.price = price;
         this.occupied = occupied;
     }
 
-    public String getName() {
-        return name;
+    public String getRow() {
+        return row;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setRow(String row) {
+        this.row = row;
+    }
+
+    public String getSeat() {
+        return seat;
+    }
+
+    public void setSeat(String seat) {
+        this.seat = seat;
     }
 
     public String getPrice() {
@@ -35,4 +45,5 @@ public class Seat {
     public void setOccupied(boolean occupied) {
         this.occupied = occupied;
     }
+
 }

@@ -1,9 +1,11 @@
 package ru.job4j.servlets.persistence;
 
 import org.apache.commons.dbcp2.BasicDataSource;
+import org.json.JSONArray;
 import org.json.JSONObject;
 import ru.job4j.servlets.domain.Account;
 import ru.job4j.servlets.domain.MovieSession;
+import ru.job4j.servlets.domain.Seat;
 
 import java.io.BufferedReader;
 import java.io.FileReader;
@@ -11,10 +13,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.Savepoint;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
-import java.util.Properties;
+import java.util.*;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -138,6 +137,7 @@ public class PsqlStore implements Store {
 
     private void createMovieSession(MovieSession movieSession) {
         Savepoint savepoint = null;
+        JSONObject seats = new JSONObject(movieSession.getSeats());
         try (Connection cn = pool.getConnection();
              PreparedStatement ps =  cn.prepareStatement("INSERT INTO moviesessions (data,"
                      + "film_name, hall_id, session_time, seats) VALUES (?, ?, ?, ?, ?)",
@@ -148,7 +148,7 @@ public class PsqlStore implements Store {
             ps.setString(2, movieSession.getFilmName());
             ps.setString(3, movieSession.getHallId());
             ps.setString(4, movieSession.getSessionTime());
-            ps.setString(5, movieSession.getSeats());
+            ps.setString(5, seats.toString());
 
             savepoint = pool.getConnection().setSavepoint();
 
@@ -171,6 +171,7 @@ public class PsqlStore implements Store {
 
     private void updateMovieSession(MovieSession movieSession) {
         Savepoint savepoint = null;
+        JSONObject seats = new JSONObject(movieSession.getSeats());
         try (Connection cn = pool.getConnection();
              PreparedStatement ps =  cn.prepareStatement("UPDATE moviesessions SET data = ?,"
                      + " film_name = ?, hall_id = ?, session_time = ?, seats = ? WHERE id = ?",
@@ -181,7 +182,7 @@ public class PsqlStore implements Store {
             ps.setString(2, movieSession.getFilmName());
             ps.setString(3, movieSession.getHallId());
             ps.setString(4, movieSession.getSessionTime());
-            ps.setString(5, movieSession.getSeats());
+            ps.setString(5, seats.toString());
             ps.setInt(6, movieSession.getId());
 
             savepoint = pool.getConnection().setSavepoint();
@@ -302,7 +303,7 @@ public class PsqlStore implements Store {
                 while (it.next()) {
                     result = new MovieSession(it.getInt("id"), it.getString("data"),
                             it.getString("film_name"), it.getString("hall_id"),
-                            it.getString("session_time"), it.getString("seats"));
+                            it.getString("session_time"), jSONtoSeat(it.getString("seats")));
                 }
             }
 
@@ -363,7 +364,7 @@ public class PsqlStore implements Store {
                 while (it.next()) {
                     result.add(new MovieSession(it.getInt("id"), it.getString("data"),
                             it.getString("film_name"), it.getString("hall_id"),
-                            it.getString("session_time"), it.getString("seats")));
+                            it.getString("session_time"), jSONtoSeat(it.getString("seats"))));
                 }
             }
 
@@ -375,6 +376,19 @@ public class PsqlStore implements Store {
                 LOGGER.log(Level.SEVERE, "Transaction failed", ex);
             }
             LOGGER.log(Level.SEVERE, "Failed connecting to DB", e);
+        }
+        return result;
+    }
+
+    private List<Seat> jSONtoSeat(String string) {
+        List<Seat> result = new ArrayList<>();
+        JSONArray jsonArray = new JSONArray(string);
+        for (int i = 0; i < jsonArray.length(); i++) {
+            String row = jsonArray.getJSONObject(i).getString("row");
+            String seat = jsonArray.getJSONObject(i).getString("seat");
+            String price = jsonArray.getJSONObject(i).getString("price");
+            boolean occupied = jsonArray.getJSONObject(i).getBoolean("occupied");
+            result.add(new Seat(row, seat, price, occupied));
         }
         return result;
     }

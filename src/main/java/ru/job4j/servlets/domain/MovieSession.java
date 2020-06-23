@@ -9,10 +9,10 @@ public class MovieSession {
     private String filmName;
     private String hallId;
     private String sessionTime;
-    private String seats;
+    private List<Seat> seats;
 
     public MovieSession(String date, String filmName, String hallId, String sessionTime,
-                        String seats) {
+                        List<Seat> seats) {
         this.date = date;
         this.filmName = filmName;
         this.hallId = hallId;
@@ -21,7 +21,7 @@ public class MovieSession {
     }
 
     public MovieSession(int id, String date, String filmName, String hallId, String sessionTime,
-                        String seats) {
+                        List<Seat> seats) {
         this.id = id;
         this.date = date;
         this.filmName = filmName;
@@ -70,11 +70,11 @@ public class MovieSession {
         this.sessionTime = sessionTime;
     }
 
-    public String getSeats() {
+    public List<Seat> getSeats() {
         return seats;
     }
 
-    public void setSeats(String seats) {
+    public void setSeats(List<Seat> seats) {
         this.seats = seats;
     }
 }

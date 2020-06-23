@@ -36,7 +36,7 @@
             for (var j = 0; j < places.length; j++) {
 
                 if (places[j].checked === true) {
-                    selectedSeats[index] = places[j].value;
+                    selectedSeats[index] = "seat=" + places[j].value;
                     index++;
                 }
             }
@@ -51,10 +51,27 @@
             if (!result) {
                 alert("Необходимо выбрать одно или более мест!");
             } else {
-                window.location.href = "payment.do?seats=" + selectedSeats;
+                document.cookie = selectedSeats.toString();
+                window.location.href = "payment.do";
             }
             return result;
         }
+
+        $(document).ready(function () {
+            $.ajax({
+                type: "GET",
+                timeout: 1000,
+                url: "http://localhost:8080/index.do/json",
+                data: {inputText: JSON.stringify(inputText)},
+                contentType: "application/json; charset=UTF-8"
+            }).done(function(data) {
+                var resp = JSON.parse(data);
+                $("h1").text("Inputted text: " + resp.input);
+            }).fail(function(data){
+                var resp = JSON.parse(data);
+                $("h1").text("Inputted text: " + resp.input);
+            });
+        })
     </script>
 
 </head>
