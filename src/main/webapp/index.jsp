@@ -11,15 +11,13 @@
 
     <!-- Optional JavaScript -->
     <!-- jQuery first, then Popper.js, then Bootstrap JS -->
-    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
 
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
           integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
-    <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js"
-            integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"
             integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"
@@ -57,21 +55,31 @@
             return result;
         }
 
-        $(document).ready(function () {
+        function updateSeats() {
             $.ajax({
                 type: "GET",
-                timeout: 1000,
-                url: "http://localhost:8080/index.do/json",
-                data: {inputText: JSON.stringify(inputText)},
-                contentType: "application/json; charset=UTF-8"
-            }).done(function(data) {
-                var resp = JSON.parse(data);
-                $("h1").text("Inputted text: " + resp.input);
-            }).fail(function(data){
-                var resp = JSON.parse(data);
-                $("h1").text("Inputted text: " + resp.input);
-            });
-        })
+                url: "http://localhost:8080/index.do/seats.do"
+                }).done(function(data) {
+                    var resp = $.parseJSON(data);
+                    $.each(resp, function (i, seat) {
+                        var row = seat["row"];
+                        var place = seat["seat"];
+                        var occupied = seat["occupied"];
+                        if (occupied === true) {
+                            $("#"+row+""+place).attr("disabled", true);
+                        } else {
+                            $("#"+row+""+place).removeAttr("disabled");
+                        }
+                    })
+                }).fail(function(){
+                    alert("Cannot get data from DB!");
+                });
+            }
+
+        $(document).ready(function () {
+           setInterval(updateSeats, 1000);
+        });
+
     </script>
 
 </head>
@@ -94,21 +102,21 @@
             <tbody>
             <tr>
                 <th>1</th>
-                <td><input type="checkbox" name="place" value="11"> Ряд 1, Место 1</td>
-                <td><input type="checkbox" name="place" value="12"> Ряд 1, Место 2</td>
-                <td><input type="checkbox" name="place" value="13"> Ряд 1, Место 3</td>
+                <td><input type="checkbox" name="place" value="11" id="11"> Ряд 1, Место 1</td>
+                <td><input type="checkbox" name="place" value="12" id="12"> Ряд 1, Место 2</td>
+                <td><input type="checkbox" name="place" value="13" id="13"> Ряд 1, Место 3</td>
             </tr>
             <tr>
                 <th>2</th>
-                <td><input type="checkbox" name="place" value="21"> Ряд 2, Место 1</td>
-                <td><input type="checkbox" name="place" value="22"> Ряд 2, Место 2</td>
-                <td><input type="checkbox" name="place" value="23"> Ряд 2, Место 3</td>
+                <td><input type="checkbox" name="place" value="21" id="21"> Ряд 2, Место 1</td>
+                <td><input type="checkbox" name="place" value="22" id="22"> Ряд 2, Место 2</td>
+                <td><input type="checkbox" name="place" value="23" id="23"> Ряд 2, Место 3</td>
             </tr>
             <tr>
                 <th>3</th>
-                <td><input type="checkbox" name="place" value="31"> Ряд 3, Место 1</td>
-                <td><input type="checkbox" name="place" value="32"> Ряд 3, Место 2</td>
-                <td><input type="checkbox" name="place" value="33"> Ряд 3, Место 3</td>
+                <td><input type="checkbox" name="place" value="31" id="31"> Ряд 3, Место 1</td>
+                <td><input type="checkbox" name="place" value="32" id="32"> Ряд 3, Место 2</td>
+                <td><input type="checkbox" name="place" value="33" id="33"> Ряд 3, Место 3</td>
             </tr>
             </tbody>
         </table>

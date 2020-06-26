@@ -51,10 +51,10 @@ public class PsqlStore implements Store {
     }
 
     private static final class Lazy {
-        private static final PsqlStore INST = new PsqlStore();
+        private static final Store INST = new PsqlStore();
     }
 
-    public static PsqlStore instOf() {
+    public static Store instOf() {
         return Lazy.INST;
     }
 
@@ -70,8 +70,8 @@ public class PsqlStore implements Store {
     private void createAccount(Account account) {
         Savepoint savepoint = null;
         try (Connection cn = pool.getConnection();
-             PreparedStatement ps =  cn.prepareStatement("INSERT INTO accounts (acc_login,"
-                             + "email) VALUES (?, ?)", PreparedStatement.RETURN_GENERATED_KEYS)) {
+             PreparedStatement ps =  cn.prepareStatement("INSERT INTO accounts (user_name,"
+                             + "phone_number) VALUES (?, ?)", PreparedStatement.RETURN_GENERATED_KEYS)) {
             pool.getConnection().setAutoCommit(false);
 
             ps.setString(1, account.getLogin());
@@ -99,8 +99,8 @@ public class PsqlStore implements Store {
     private void updateAccount(Account account) {
         Savepoint savepoint = null;
         try (Connection cn = pool.getConnection();
-             PreparedStatement ps =  cn.prepareStatement("UPDATE accounts SET acc_login = ?,"
-                             + " email = ? WHERE id = ?", PreparedStatement.RETURN_GENERATED_KEYS)) {
+             PreparedStatement ps =  cn.prepareStatement("UPDATE accounts SET user_name = ?,"
+                             + " phone_number = ? WHERE id = ?", PreparedStatement.RETURN_GENERATED_KEYS)) {
             pool.getConnection().setAutoCommit(false);
 
             ps.setString(1, account.getLogin());
@@ -293,11 +293,11 @@ public class PsqlStore implements Store {
         try (Connection cn = pool.getConnection();
              PreparedStatement ps =  cn.prepareStatement("SELECT * FROM moviesessions WHERE id = ?",
                      PreparedStatement.RETURN_GENERATED_KEYS)) {
-            pool.getConnection().setAutoCommit(false);
+            cn.setAutoCommit(false);
 
             ps.setInt(1, id);
 
-            savepoint = pool.getConnection().setSavepoint();
+            savepoint = cn.setSavepoint();
 
             try (ResultSet it = ps.executeQuery()) {
                 while (it.next()) {
@@ -307,7 +307,7 @@ public class PsqlStore implements Store {
                 }
             }
 
-            pool.getConnection().commit();
+            cn.commit();
         } catch (Exception e) {
             try {
                 pool.getConnection().rollback(savepoint);
@@ -384,9 +384,9 @@ public class PsqlStore implements Store {
         List<Seat> result = new ArrayList<>();
         JSONArray jsonArray = new JSONArray(string);
         for (int i = 0; i < jsonArray.length(); i++) {
-            String row = jsonArray.getJSONObject(i).getString("row");
-            String seat = jsonArray.getJSONObject(i).getString("seat");
-            String price = jsonArray.getJSONObject(i).getString("price");
+            int row = jsonArray.getJSONObject(i).getInt("row");
+            int seat = jsonArray.getJSONObject(i).getInt("seat");
+            int price = jsonArray.getJSONObject(i).getInt("price");
             boolean occupied = jsonArray.getJSONObject(i).getBoolean("occupied");
             result.add(new Seat(row, seat, price, occupied));
         }

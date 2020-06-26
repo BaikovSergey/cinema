@@ -22,4 +22,12 @@
     <servlet-name>PaymentServlet</servlet-name>
     <url-pattern>/payment.do</url-pattern>
   </servlet-mapping>
+  <servlet>
+    <servlet-name>SeatsServlet</servlet-name>
+    <servlet-class>ru.job4j.servlets.presentation.SeatsServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>SeatsServlet</servlet-name>
+    <url-pattern>/seats.do</url-pattern>
+  </servlet-mapping>
 </web-app>

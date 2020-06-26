@@ -67,10 +67,9 @@
 
 <div class="container">
     <div class="row pt-3" id="SelectedSeats">
-
     </div>
     <div class="row">
-        <form>
+        <form action="<%=request.getContextPath()%>/posts.do" method="post">
             <div class="form-group">
                 <label for="username">ФИО</label>
                 <input type="text" class="form-control" name="ФИО" id="username" placeholder="ФИО">

@@ -4,4 +4,4 @@ CREATE TABLE public.accounts
   login text NOT NULL,
   email text NOT NULL
 );
-CREATE UNIQUE INDEX accounts_email_uindex ON public.accounts (email);
+CREATE UNIQUE INDEX accounts_email_uindex ON public.accounts (phone_number);
