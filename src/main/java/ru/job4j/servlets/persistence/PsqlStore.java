@@ -71,13 +71,15 @@ public class PsqlStore implements Store {
         Savepoint savepoint = null;
         try (Connection cn = pool.getConnection();
              PreparedStatement ps =  cn.prepareStatement("INSERT INTO accounts (user_name,"
-                             + "phone_number) VALUES (?, ?)", PreparedStatement.RETURN_GENERATED_KEYS)) {
-            pool.getConnection().setAutoCommit(false);
+                             + "phone_number, sum) VALUES (?, ?, ?)",
+                     PreparedStatement.RETURN_GENERATED_KEYS)) {
+            cn.setAutoCommit(false);
 
-            ps.setString(1, account.getLogin());
-            ps.setString(2, account.getEmail());
+            ps.setString(1, account.getName());
+            ps.setString(2, account.getPhoneNumber());
+            ps.setDouble(3, account.getSum());
 
-            savepoint = pool.getConnection().setSavepoint();
+            savepoint = cn.setSavepoint();
 
             ps.execute();
             try (ResultSet id = ps.getGeneratedKeys()) {
@@ -85,7 +87,7 @@ public class PsqlStore implements Store {
                     account.setId(id.getInt(1));
                 }
             }
-            pool.getConnection().commit();
+            cn.commit();
         } catch (Exception e) {
             try {
                 pool.getConnection().rollback(savepoint);
@@ -100,14 +102,16 @@ public class PsqlStore implements Store {
         Savepoint savepoint = null;
         try (Connection cn = pool.getConnection();
              PreparedStatement ps =  cn.prepareStatement("UPDATE accounts SET user_name = ?,"
-                             + " phone_number = ? WHERE id = ?", PreparedStatement.RETURN_GENERATED_KEYS)) {
-            pool.getConnection().setAutoCommit(false);
+                             + " phone_number = ?, sum = ? WHERE id = ?",
+                     PreparedStatement.RETURN_GENERATED_KEYS)) {
+            cn.setAutoCommit(false);
 
-            ps.setString(1, account.getLogin());
-            ps.setString(2, account.getEmail());
-            ps.setInt(3, account.getId());
+            ps.setString(1, account.getName());
+            ps.setString(2, account.getPhoneNumber());
+            ps.setDouble(3, account.getSum());
+            ps.setInt(4, account.getId());
 
-            savepoint = pool.getConnection().setSavepoint();
+            savepoint = cn.setSavepoint();
 
             ps.execute();
             try (ResultSet id = ps.getGeneratedKeys()) {
@@ -115,7 +119,7 @@ public class PsqlStore implements Store {
                     account.setId(id.getInt(1));
                 }
             }
-            pool.getConnection().commit();
+            cn.commit();
         } catch (Exception e) {
             try {
                 pool.getConnection().rollback(savepoint);
@@ -142,7 +146,7 @@ public class PsqlStore implements Store {
              PreparedStatement ps =  cn.prepareStatement("INSERT INTO moviesessions (data,"
                      + "film_name, hall_id, session_time, seats) VALUES (?, ?, ?, ?, ?)",
                      PreparedStatement.RETURN_GENERATED_KEYS)) {
-            pool.getConnection().setAutoCommit(false);
+            cn.setAutoCommit(false);
 
             ps.setString(1, movieSession.getDate());
             ps.setString(2, movieSession.getFilmName());
@@ -150,7 +154,7 @@ public class PsqlStore implements Store {
             ps.setString(4, movieSession.getSessionTime());
             ps.setString(5, seats.toString());
 
-            savepoint = pool.getConnection().setSavepoint();
+            savepoint = cn.setSavepoint();
 
             ps.execute();
             try (ResultSet id = ps.getGeneratedKeys()) {
@@ -158,7 +162,7 @@ public class PsqlStore implements Store {
                     movieSession.setId(id.getInt(1));
                 }
             }
-            pool.getConnection().commit();
+            cn.commit();
         } catch (Exception e) {
             try {
                 pool.getConnection().rollback(savepoint);
@@ -269,8 +273,8 @@ public class PsqlStore implements Store {
 
             try (ResultSet it = ps.executeQuery()) {
                 while (it.next()) {
-                    result = new Account(it.getInt("id"), it.getString("acc_login"),
-                            it.getString("email"));
+                    result = new Account(it.getInt("id"), it.getString("user_name"),
+                            it.getString("phone_number"), it.getDouble("sum"));
                 }
             }
 
@@ -333,7 +337,7 @@ public class PsqlStore implements Store {
             try (ResultSet it = ps.executeQuery()) {
                 while (it.next()) {
                     result.add(new Account(it.getInt("id"), it.getString("acc_login"),
-                            it.getString("email")));
+                            it.getString("email"), it.getDouble("sum")));
                 }
             }
 
@@ -392,4 +396,5 @@ public class PsqlStore implements Store {
         }
         return result;
     }
+
 }

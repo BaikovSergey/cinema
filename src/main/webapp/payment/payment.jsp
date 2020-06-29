@@ -29,8 +29,9 @@
 
     <script>
         function validate() {
-            var result = false;
-            var fields = [document.getElementById("username"), document.getElementById("phone")];
+            var result = true;
+            var fields = [document.getElementById("username"), document.getElementById("phoneNumber")];
+            document.getElementById("sum").setAttribute("value", "123");
 
             for (var i = 0; i < fields.length; i++) {
                 if (fields[i].value === "") {
@@ -45,6 +46,9 @@
                         alert("Please fill this field: " + $(fields[j]).attr('name'));
                     }
                 }
+            } else {
+
+                location.href = "index.do";
             }
             return result;
         }
@@ -69,14 +73,22 @@
     <div class="row pt-3" id="SelectedSeats">
     </div>
     <div class="row">
-        <form action="<%=request.getContextPath()%>/posts.do" method="post">
+        <form action="<%=request.getContextPath()%>/payment.do" method="post">
             <div class="form-group">
                 <label for="username">ФИО</label>
-                <input type="text" class="form-control" name="ФИО" id="username" placeholder="ФИО">
+                <input type="text" class="form-control" name="userName" id="username"
+                       placeholder="ФИО">
             </div>
             <div class="form-group">
-                <label for="phone">Номер телефона</label>
-                <input type="text" class="form-control" name="Номер телефона" id="phone" placeholder="Номер телефона">
+                <label for="phoneNumber">Номер телефона</label>
+                <input type="text" class="form-control" name="phoneNumber" id="phoneNumber"
+                       placeholder="Номер телефона">
+            </div>
+            <div class="form-group">
+                <input type="hidden" class="form-control" name="sum" id="sum">
+            </div>
+            <div class="form-group">
+                <input type="hidden" class="form-control" name="seat" id="seat">
             </div>
             <button type="submit" class="btn btn-success" onclick="return validate();">Оплатить</button>
         </form>

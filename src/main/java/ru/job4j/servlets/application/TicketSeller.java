@@ -1,5 +1,6 @@
 package ru.job4j.servlets.application;
 
+import ru.job4j.servlets.domain.Account;
 import ru.job4j.servlets.domain.MovieSession;
 import ru.job4j.servlets.persistence.PsqlStore;
 
@@ -20,5 +21,10 @@ public class TicketSeller implements Seller {
     @Override
     public MovieSession getMovieSession() {
         return PsqlStore.instOf().findMovieSession(1);
+    }
+
+    @Override
+    public void saveAccount(Account account) {
+        PsqlStore.instOf().saveAccount(account);
     }
 }

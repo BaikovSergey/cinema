@@ -3,18 +3,22 @@ package ru.job4j.servlets.domain;
 public class Account {
 
     private int id;
-    private String login;
-    private String email;
+    private String name;
+    private String phoneNumber;
+    private double sum;
 
-    public Account(String login, String email) {
-        this.login = login;
-        this.email = email;
+    public Account(String name, String phoneNumber, double sum) {
+        this.name = name;
+        this.phoneNumber = phoneNumber;
+        this.sum = sum;
+
     }
 
-    public Account(int id, String login, String email) {
+    public Account(int id, String name, String phoneNumber, double sum) {
         this.id = id;
-        this.login = login;
-        this.email = email;
+        this.name = name;
+        this.phoneNumber = phoneNumber;
+        this.sum = sum;
     }
 
     public int getId() {
@@ -25,19 +29,27 @@ public class Account {
         this.id = id;
     }
 
-    public String getLogin() {
-        return login;
+    public String getName() {
+        return name;
     }
 
-    public void setLogin(String login) {
-        this.login = login;
+    public void setName(String name) {
+        this.name = name;
     }
 
-    public String getEmail() {
-        return email;
+    public String getPhoneNumber() {
+        return phoneNumber;
     }
 
-    public void setEmail(String email) {
-        this.email = email;
+    public void setPhoneNumber(String phoneNumber) {
+        this.phoneNumber = phoneNumber;
+    }
+
+    public double getSum() {
+        return sum;
+    }
+
+    public void setSum(double sum) {
+        this.sum = sum;
     }
 }
