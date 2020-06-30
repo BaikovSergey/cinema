@@ -32,7 +32,6 @@
             var places = document.getElementsByName("place");
             var index = 0;
             for (var j = 0; j < places.length; j++) {
-
                 if (places[j].checked === true) {
                     selectedSeats[index] = "seat=" + places[j].value;
                     index++;
