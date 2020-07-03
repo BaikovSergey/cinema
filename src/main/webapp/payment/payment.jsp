@@ -46,7 +46,7 @@
                 }
             } else {
                 document.getElementById("sum").setAttribute("value", "123");
-                location.href = "index.do";
+                //location.href = "index.do";
             }
             return result;
         }
@@ -58,7 +58,7 @@
                 $("#SelectedSeats").append("<h3>"+ selectedSeats[i] +"</h3><br>");
             }
         });
-
+        <!--Переделать под получения выбранных мест -->
         function updateSeats() {
             $.ajax({
                 type: "GET",

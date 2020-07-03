@@ -57,7 +57,7 @@
         function updateSeats() {
             $.ajax({
                 type: "GET",
-                url: "http://localhost:8080/index.do/seats.do"
+                url: "http://localhost:8080/index/seats.do"
                 }).done(function(data) {
                     var resp = $.parseJSON(data);
                     $.each(resp, function (i, seat) {
@@ -75,9 +75,9 @@
                 });
             }
 
-        $(document).ready(function () {
-           setInterval(updateSeats, 1000);
-        });
+         $(document).ready(function () {
+            setInterval(updateSeats, 1000);
+         });
 
     </script>
 
@@ -101,21 +101,30 @@
             <tbody>
             <tr>
                 <th>1</th>
-                <td><input type="checkbox" name="place" value="11" id="11"> Ряд 1, Место 1</td>
-                <td><input type="checkbox" name="place" value="12" id="12"> Ряд 1, Место 2</td>
-                <td><input type="checkbox" name="place" value="13" id="13"> Ряд 1, Место 3</td>
+                <td><label for="11"></label>
+                    <input type="checkbox" name="place" value="11" id="11"> Ряд 1, Место 1</td>
+                <td><label for="12"></label>
+                    <input type="checkbox" name="place" value="12" id="12"> Ряд 1, Место 2</td>
+                <td><label for="13"></label>
+                    <input type="checkbox" name="place" value="13" id="13"> Ряд 1, Место 3</td>
             </tr>
             <tr>
                 <th>2</th>
-                <td><input type="checkbox" name="place" value="21" id="21"> Ряд 2, Место 1</td>
-                <td><input type="checkbox" name="place" value="22" id="22"> Ряд 2, Место 2</td>
-                <td><input type="checkbox" name="place" value="23" id="23"> Ряд 2, Место 3</td>
+                <td><label for="21"></label>
+                    <input type="checkbox" name="place" value="21" id="21"> Ряд 2, Место 1</td>
+                <td><label for="22"></label>
+                    <input type="checkbox" name="place" value="22" id="22"> Ряд 2, Место 2</td>
+                <td><label for="23"></label>
+                    <input type="checkbox" name="place" value="23" id="23"> Ряд 2, Место 3</td>
             </tr>
             <tr>
                 <th>3</th>
-                <td><input type="checkbox" name="place" value="31" id="31"> Ряд 3, Место 1</td>
-                <td><input type="checkbox" name="place" value="32" id="32"> Ряд 3, Место 2</td>
-                <td><input type="checkbox" name="place" value="33" id="33"> Ряд 3, Место 3</td>
+                <td><label for="31"></label>
+                    <input type="checkbox" name="place" value="31" id="31"> Ряд 3, Место 1</td>
+                <td><label for="32"></label>
+                    <input type="checkbox" name="place" value="32" id="32"> Ряд 3, Место 2</td>
+                <td><label for="33"></label>
+                    <input type="checkbox" name="place" value="33" id="33"> Ряд 3, Место 3</td>
             </tr>
             </tbody>
         </table>

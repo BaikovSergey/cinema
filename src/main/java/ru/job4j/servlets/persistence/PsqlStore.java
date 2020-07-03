@@ -70,8 +70,8 @@ public class PsqlStore implements Store {
     private void createAccount(Account account) {
         Savepoint savepoint = null;
         try (Connection cn = pool.getConnection();
-             PreparedStatement ps =  cn.prepareStatement("INSERT INTO accounts (user_name,"
-                             + "phone_number, sum) VALUES (?, ?, ?)",
+             PreparedStatement ps =  cn.prepareStatement("INSERT INTO accounts (userName,"
+                             + "phonenumber, sum) VALUES (?, ?, ?)",
                      PreparedStatement.RETURN_GENERATED_KEYS)) {
             cn.setAutoCommit(false);
 
@@ -101,8 +101,8 @@ public class PsqlStore implements Store {
     private void updateAccount(Account account) {
         Savepoint savepoint = null;
         try (Connection cn = pool.getConnection();
-             PreparedStatement ps =  cn.prepareStatement("UPDATE accounts SET user_name = ?,"
-                             + " phone_number = ?, sum = ? WHERE id = ?",
+             PreparedStatement ps =  cn.prepareStatement("UPDATE accounts SET userName = ?,"
+                             + " phonenumber = ?, sum = ? WHERE id = ?",
                      PreparedStatement.RETURN_GENERATED_KEYS)) {
             cn.setAutoCommit(false);
 
