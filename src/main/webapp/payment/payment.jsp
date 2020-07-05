@@ -2,6 +2,7 @@
 <!doctype html>
 <html lang="en">
 <head>
+
     <!-- Required meta tags -->
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
@@ -11,7 +12,7 @@
 
     <!-- Optional JavaScript -->
     <!-- jQuery first, then Popper.js, then Bootstrap JS -->
-    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
 
@@ -29,7 +30,6 @@
         function validate() {
             var result = true;
             var fields = [document.getElementById("username"), document.getElementById("phoneNumber")];
-            var seats = "";
 
             for (var i = 0; i < fields.length; i++) {
                 if (fields[i].value === "") {
@@ -46,55 +46,31 @@
                 }
             } else {
                 document.getElementById("sum").setAttribute("value", "123");
-                //location.href = "index.do";
             }
             return result;
         }
 
         $(document).ready(function () {
-            var selectedSeats = document.cookie.split(",");
-
-            for (var i = 0; i < selectedSeats.length; i++) {
-                $("#SelectedSeats").append("<h3>"+ selectedSeats[i] +"</h3><br>");
-            }
-        });
-        <!--Переделать под получения выбранных мест -->
-        function updateSeats() {
             $.ajax({
                 type: "GET",
-                url: "http://localhost:8080/index.do/seats.do"
+                url: "http://localhost:8080/index/boughtSeats.do",
+                data: {seats: document.cookie.toString()}
             }).done(function(data) {
-                var resp = $.parseJSON(data);
-                $.each(resp, function (i, seat) {
-                    var row = seat["row"];
-                    var place = seat["seat"];
-                    var occupied = seat["occupied"];
-                    if (occupied === true) {
-                        $("#"+row+""+place).attr("disabled", true);
-                    } else {
-                        $("#"+row+""+place).removeAttr("disabled");
-                    }
-                })
+                //$("#SelectedSeats").appendTo("<h3>TEST</h3>");
+                //$("#SelectedSeats").appendTo("<h3>"+ data +"</h3>");
             }).fail(function(){
                 alert("Cannot get data from DB!");
             });
-        }
-
-        $(document).ready(function () {
-            updateSeats();
         });
 
+
     </script>
+
 </head>
 <body>
-<!-- Optional JavaScript -->
-<!-- jQuery first, then Popper.js, then Bootstrap JS -->
-<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B,+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
-<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
-
 <div class="container">
     <div class="row pt-3" id="SelectedSeats">
+        <h3>Вы выбрали: </h3>
     </div>
     <div class="row">
         <form action="<%=request.getContextPath()%>/payment.do" method="post">

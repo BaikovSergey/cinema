@@ -30,4 +30,12 @@
     <servlet-name>SeatsServlet</servlet-name>
     <url-pattern>/seats.do</url-pattern>
   </servlet-mapping>
+  <servlet>
+    <servlet-name>BoughtSeats</servlet-name>
+    <servlet-class>ru.job4j.servlets.presentation.BoughtSeatsServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>BoughtSeats</servlet-name>
+    <url-pattern>/boughtSeats.do</url-pattern>
+  </servlet-mapping>
 </web-app>

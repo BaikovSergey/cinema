@@ -17,7 +17,7 @@ public class Maintenance {
         result.add(new Seat(1, 3, 1000, false));
         result.add(new Seat(2, 1, 500, false));
         result.add(new Seat(2, 2, 500, false));
-        result.add(new Seat(2, 1, 500, false));
+        result.add(new Seat(2, 3, 500, false));
         result.add(new Seat(3, 1, 500, false));
         result.add(new Seat(3, 2, 500, false));
         result.add(new Seat(3, 3, 500, false));
@@ -39,8 +39,8 @@ public class Maintenance {
 
     public static void main(String[] args) {
         Maintenance maintenance = new Maintenance();
-//        List<Seat> seats = maintenance.getSeatsList();
-//        System.out.println(maintenance.getJson(seats));
-        System.out.println(maintenance.getSeats());
+        List<Seat> seats = maintenance.getSeatsList();
+        System.out.println(maintenance.getJson(seats));
+
     }
 }
