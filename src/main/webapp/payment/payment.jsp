@@ -58,8 +58,12 @@
             }).done(function(data) {
                 var result = data.split(",");
                 for (var i = 0; i < result.length; i++) {
-                    $("#SelectedSeats").append("<div class='row align-items-start'><h3>"+ result[i] +"</h3></div>");
+                    $("#SelectedSeats").append("<div class='row align-items-start'><p>"+ result[i] +"</p></div>");
+                    if (i === result.length - 1) {
+                        $("#sum").attr("value", result[i]);
+                    }
                 }
+                $("#seats").attr("value", document.cookie.toString());
             }).fail(function(){
                 alert("Cannot get data from DB!");
             });
@@ -71,7 +75,7 @@
 <div class="container">
     <div class="grid align-items-start" id="SelectedSeats">
         <div class="row">
-            <h3>Вы выбрали: </h3>
+            <h4>Вы выбрали: </h4>
         </div>
     </div>
     <div class="row">
@@ -90,7 +94,7 @@
                 <input type="hidden" class="form-control" name="sum" id="sum">
             </div>
             <div class="form-group">
-                <input type="hidden" class="form-control" name="seat" id="seat">
+                <input type="hidden" class="form-control" name="seat" id="seats">
             </div>
             <button type="submit" class="btn btn-success" onclick="return validate();">Оплатить</button>
         </form>
