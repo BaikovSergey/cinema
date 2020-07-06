@@ -19,6 +19,7 @@ public class BoughtSeatsServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         req.setCharacterEncoding("UTF-8");
+        resp.setContentType("text/html; charset=UTF-8");
         StringBuilder result = new StringBuilder();
         int sum = 0;
         List<Seat> seats = TicketSeller.instOf().getMovieSession().getSeats();
@@ -34,7 +35,7 @@ public class BoughtSeatsServlet extends HttpServlet {
                             .append(" ")
                             .append("место ")
                             .append(seat.getSeat())
-                            .append("\n");
+                            .append(",");
                 }
             }
         }

@@ -56,21 +56,23 @@
                 url: "http://localhost:8080/index/boughtSeats.do",
                 data: {seats: document.cookie.toString()}
             }).done(function(data) {
-                //$("#SelectedSeats").appendTo("<h3>TEST</h3>");
-                //$("#SelectedSeats").appendTo("<h3>"+ data +"</h3>");
+                var result = data.split(",");
+                for (var i = 0; i < result.length; i++) {
+                    $("#SelectedSeats").append("<div class='row align-items-start'><h3>"+ result[i] +"</h3></div>");
+                }
             }).fail(function(){
                 alert("Cannot get data from DB!");
             });
         });
-
-
     </script>
 
 </head>
 <body>
 <div class="container">
-    <div class="row pt-3" id="SelectedSeats">
-        <h3>Вы выбрали: </h3>
+    <div class="grid align-items-start" id="SelectedSeats">
+        <div class="row">
+            <h3>Вы выбрали: </h3>
+        </div>
     </div>
     <div class="row">
         <form action="<%=request.getContextPath()%>/payment.do" method="post">
