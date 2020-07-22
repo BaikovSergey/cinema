@@ -70,8 +70,8 @@ public class PsqlStore implements Store {
     private void createAccount(Account account) {
         Savepoint savepoint = null;
         try (Connection cn = pool.getConnection();
-             PreparedStatement ps =  cn.prepareStatement("INSERT INTO accounts (userName,"
-                             + "phonenumber, sum) VALUES (?, ?, ?)",
+             PreparedStatement ps =  cn.prepareStatement("INSERT INTO accounts (user_name,"
+                             + "phone_number, sum) VALUES (?, ?, ?)",
                      PreparedStatement.RETURN_GENERATED_KEYS)) {
             cn.setAutoCommit(false);
 
@@ -101,8 +101,8 @@ public class PsqlStore implements Store {
     private void updateAccount(Account account) {
         Savepoint savepoint = null;
         try (Connection cn = pool.getConnection();
-             PreparedStatement ps =  cn.prepareStatement("UPDATE accounts SET userName = ?,"
-                             + " phonenumber = ?, sum = ? WHERE id = ?",
+             PreparedStatement ps =  cn.prepareStatement("UPDATE accounts SET user_name = ?,"
+                             + " phone_number = ?, sum = ? WHERE id = ?",
                      PreparedStatement.RETURN_GENERATED_KEYS)) {
             cn.setAutoCommit(false);
 
@@ -141,7 +141,7 @@ public class PsqlStore implements Store {
 
     private void createMovieSession(MovieSession movieSession) {
         Savepoint savepoint = null;
-        JSONObject seats = new JSONObject(movieSession.getSeats());
+        JSONArray seats = new JSONArray(movieSession.getSeats());
         try (Connection cn = pool.getConnection();
              PreparedStatement ps =  cn.prepareStatement("INSERT INTO moviesessions (data,"
                      + "film_name, hall_id, session_time, seats) VALUES (?, ?, ?, ?, ?)",
@@ -150,7 +150,7 @@ public class PsqlStore implements Store {
 
             ps.setString(1, movieSession.getDate());
             ps.setString(2, movieSession.getFilmName());
-            ps.setString(3, movieSession.getHallId());
+            ps.setInt(3, movieSession.getHallId());
             ps.setString(4, movieSession.getSessionTime());
             ps.setString(5, seats.toString());
 
@@ -175,21 +175,21 @@ public class PsqlStore implements Store {
 
     private void updateMovieSession(MovieSession movieSession) {
         Savepoint savepoint = null;
-        JSONObject seats = new JSONObject(movieSession.getSeats());
+        JSONArray seats = new JSONArray(movieSession.getSeats());
         try (Connection cn = pool.getConnection();
              PreparedStatement ps =  cn.prepareStatement("UPDATE moviesessions SET data = ?,"
                      + " film_name = ?, hall_id = ?, session_time = ?, seats = ? WHERE id = ?",
                      PreparedStatement.RETURN_GENERATED_KEYS)) {
-            pool.getConnection().setAutoCommit(false);
+            cn.setAutoCommit(false);
 
             ps.setString(1, movieSession.getDate());
             ps.setString(2, movieSession.getFilmName());
-            ps.setString(3, movieSession.getHallId());
+            ps.setInt(3, movieSession.getHallId());
             ps.setString(4, movieSession.getSessionTime());
             ps.setString(5, seats.toString());
             ps.setInt(6, movieSession.getId());
 
-            savepoint = pool.getConnection().setSavepoint();
+            savepoint = cn.setSavepoint();
 
             ps.execute();
             try (ResultSet id = ps.getGeneratedKeys()) {
@@ -197,7 +197,7 @@ public class PsqlStore implements Store {
                     movieSession.setId(id.getInt(1));
                 }
             }
-            pool.getConnection().commit();
+            cn.commit();
         } catch (Exception e) {
             try {
                 pool.getConnection().rollback(savepoint);
@@ -214,15 +214,15 @@ public class PsqlStore implements Store {
         try (Connection cn = pool.getConnection();
              PreparedStatement ps =  cn.prepareStatement("DELETE FROM accounts WHERE id = ?",
                      PreparedStatement.RETURN_GENERATED_KEYS)) {
-            pool.getConnection().setAutoCommit(false);
+            cn.setAutoCommit(false);
 
             ps.setInt(1, id);
 
-            savepoint = pool.getConnection().setSavepoint();
+            savepoint = cn.setSavepoint();
 
             ps.execute();
 
-            pool.getConnection().commit();
+            cn.commit();
         } catch (Exception e) {
             try {
                 pool.getConnection().rollback(savepoint);
@@ -239,15 +239,15 @@ public class PsqlStore implements Store {
         try (Connection cn = pool.getConnection();
              PreparedStatement ps =  cn.prepareStatement("DELETE FROM moviesessions WHERE id = ?",
                      PreparedStatement.RETURN_GENERATED_KEYS)) {
-            pool.getConnection().setAutoCommit(false);
+            cn.setAutoCommit(false);
 
             ps.setInt(1, id);
 
-            savepoint = pool.getConnection().setSavepoint();
+            savepoint = cn.setSavepoint();
 
             ps.execute();
 
-            pool.getConnection().commit();
+            cn.commit();
         } catch (Exception e) {
             try {
                 pool.getConnection().rollback(savepoint);
@@ -265,11 +265,11 @@ public class PsqlStore implements Store {
         try (Connection cn = pool.getConnection();
              PreparedStatement ps =  cn.prepareStatement("SELECT * FROM accounts WHERE id = ?",
                      PreparedStatement.RETURN_GENERATED_KEYS)) {
-            pool.getConnection().setAutoCommit(false);
+            cn.setAutoCommit(false);
 
             ps.setInt(1, id);
 
-            savepoint = pool.getConnection().setSavepoint();
+            savepoint = cn.setSavepoint();
 
             try (ResultSet it = ps.executeQuery()) {
                 while (it.next()) {
@@ -278,7 +278,7 @@ public class PsqlStore implements Store {
                 }
             }
 
-            pool.getConnection().commit();
+            cn.commit();
         } catch (Exception e) {
             try {
                 pool.getConnection().rollback(savepoint);
@@ -306,7 +306,7 @@ public class PsqlStore implements Store {
             try (ResultSet it = ps.executeQuery()) {
                 while (it.next()) {
                     result = new MovieSession(it.getInt("id"), it.getString("data"),
-                            it.getString("film_name"), it.getString("hall_id"),
+                            it.getString("film_name"), it.getInt("hall_id"),
                             it.getString("session_time"), jSONtoSeat(it.getString("seats")));
                 }
             }
@@ -330,9 +330,9 @@ public class PsqlStore implements Store {
         try (Connection cn = pool.getConnection();
              PreparedStatement ps =  cn.prepareStatement("SELECT * FROM accounts",
                      PreparedStatement.RETURN_GENERATED_KEYS)) {
-            pool.getConnection().setAutoCommit(false);
+            cn.setAutoCommit(false);
 
-            savepoint = pool.getConnection().setSavepoint();
+            savepoint = cn.setSavepoint();
 
             try (ResultSet it = ps.executeQuery()) {
                 while (it.next()) {
@@ -341,7 +341,7 @@ public class PsqlStore implements Store {
                 }
             }
 
-            pool.getConnection().commit();
+            cn.commit();
         } catch (Exception e) {
             try {
                 pool.getConnection().rollback(savepoint);
@@ -360,19 +360,19 @@ public class PsqlStore implements Store {
         try (Connection cn = pool.getConnection();
              PreparedStatement ps =  cn.prepareStatement("SELECT * FROM moviesessions",
                      PreparedStatement.RETURN_GENERATED_KEYS)) {
-            pool.getConnection().setAutoCommit(false);
+            cn.setAutoCommit(false);
 
-            savepoint = pool.getConnection().setSavepoint();
+            savepoint = cn.setSavepoint();
 
             try (ResultSet it = ps.executeQuery()) {
                 while (it.next()) {
                     result.add(new MovieSession(it.getInt("id"), it.getString("data"),
-                            it.getString("film_name"), it.getString("hall_id"),
+                            it.getString("film_name"), it.getInt("hall_id"),
                             it.getString("session_time"), jSONtoSeat(it.getString("seats"))));
                 }
             }
 
-            pool.getConnection().commit();
+            cn.commit();
         } catch (Exception e) {
             try {
                 pool.getConnection().rollback(savepoint);

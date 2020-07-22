@@ -1,7 +1,13 @@
-CREATE TABLE public.accounts
+-- auto-generated definition
+create table accounts
 (
-  id serial PRIMARY KEY NOT NULL,
-  email text NOT NULL,
-  phoneNumber text NOT NULL
+  id           serial not null
+    constraint accounts_pkey
+    primary key,
+  user_name    text   not null,
+  phone_number text   not null,
+  sum          numeric
 );
-CREATE UNIQUE INDEX accounts_email_uindex ON public.accounts (phoneNumber);
+
+alter table accounts
+  owner to postgres;

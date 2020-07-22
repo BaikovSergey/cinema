@@ -1,12 +1,21 @@
-CREATE TABLE public.movies
+-- auto-generated definition
+create table movies
 (
-  id serial PRIMARY KEY NOT NULL,
-  name varchar(100) NOT NULL,
-  country varchar(50) NOT NULL,
-  director varchar(50) NOT NULL,
-  genre varchar(50) NOT NULL,
-  age varchar(3) NOT NULL,
-  ratingMPAA varchar(5) NOT NULL,
-  time varchar(20) NOT NULL
+  id         serial       not null
+    constraint movies_pkey
+    primary key,
+  name       varchar(100) not null,
+  country    varchar(50)  not null,
+  director   varchar(50)  not null,
+  genre      varchar(50)  not null,
+  age        varchar(3)   not null,
+  ratingmpaa varchar(5)   not null,
+  time       varchar(20)  not null
 );
-CREATE UNIQUE INDEX movies_id_uindex ON public.movies (id);
+
+alter table movies
+  owner to postgres;
+
+create unique index movies_id_uindex
+  on movies (id);
+

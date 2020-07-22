@@ -25,7 +25,7 @@ public class BoughtSeatsServlet extends HttpServlet {
         List<Seat> seats = TicketSeller.instOf().getMovieSession().getSeats();
         String[] data = req.getParameter("seats").split(",");
         for (String seatData : data) {
-            int row = Integer.parseInt(seatData.substring(5,6));
+            int row = Integer.parseInt(seatData.substring(5, 6));
             int place = Integer.parseInt(seatData.substring(6));
             for (Seat seat: seats) {
                 if (seat.getRow() == row && seat.getSeat() == place) {
@@ -36,6 +36,7 @@ public class BoughtSeatsServlet extends HttpServlet {
                             .append("место ")
                             .append(seat.getSeat())
                             .append(",");
+                    break;
                 }
             }
         }

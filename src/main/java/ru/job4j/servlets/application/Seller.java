@@ -5,5 +5,6 @@ import ru.job4j.servlets.domain.MovieSession;
 
 public interface Seller {
     MovieSession getMovieSession();
-    public void saveAccount(Account account);
+    void saveAccount(Account account);
+    void saveMovieSession(MovieSession movieSession);
 }

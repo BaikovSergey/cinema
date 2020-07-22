@@ -7,11 +7,11 @@ public class MovieSession {
     private int id;
     private String date;
     private String filmName;
-    private String hallId;
+    private int hallId;
     private String sessionTime;
     private List<Seat> seats;
 
-    public MovieSession(String date, String filmName, String hallId, String sessionTime,
+    public MovieSession(String date, String filmName, int hallId, String sessionTime,
                         List<Seat> seats) {
         this.date = date;
         this.filmName = filmName;
@@ -20,7 +20,7 @@ public class MovieSession {
         this.seats = seats;
     }
 
-    public MovieSession(int id, String date, String filmName, String hallId, String sessionTime,
+    public MovieSession(int id, String date, String filmName, int hallId, String sessionTime,
                         List<Seat> seats) {
         this.id = id;
         this.date = date;
@@ -54,11 +54,11 @@ public class MovieSession {
         this.filmName = filmName;
     }
 
-    public String getHallId() {
+    public int getHallId() {
         return hallId;
     }
 
-    public void setHallId(String hallId) {
+    public void setHallId(int hallId) {
         this.hallId = hallId;
     }
 

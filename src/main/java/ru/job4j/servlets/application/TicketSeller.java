@@ -4,11 +4,8 @@ import ru.job4j.servlets.domain.Account;
 import ru.job4j.servlets.domain.MovieSession;
 import ru.job4j.servlets.persistence.PsqlStore;
 
-import java.util.logging.Logger;
 
 public class TicketSeller implements Seller {
-
-    private final static Logger LOGGER = Logger.getLogger(TicketSeller.class.getName());
 
     private static final class Lazy {
         private static final Seller INST = new TicketSeller();
@@ -26,5 +23,10 @@ public class TicketSeller implements Seller {
     @Override
     public void saveAccount(Account account) {
         PsqlStore.instOf().saveAccount(account);
+    }
+
+    @Override
+    public void saveMovieSession(MovieSession movieSession) {
+        PsqlStore.instOf().saveMovieSession(movieSession);
     }
 }

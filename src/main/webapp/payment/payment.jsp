@@ -44,8 +44,6 @@
                         alert("Please fill this field: " + $(fields[j]).attr('name'));
                     }
                 }
-            } else {
-                document.getElementById("sum").setAttribute("value", "123");
             }
             return result;
         }
@@ -53,14 +51,14 @@
         $(document).ready(function () {
             $.ajax({
                 type: "GET",
-                url: "http://localhost:8080/index/boughtSeats.do",
+                url: "http://localhost:8080/index.do/boughtSeats.do",
                 data: {seats: document.cookie.toString()}
             }).done(function(data) {
                 var result = data.split(",");
                 for (var i = 0; i < result.length; i++) {
                     $("#SelectedSeats").append("<div class='row align-items-start'><p>"+ result[i] +"</p></div>");
                     if (i === result.length - 1) {
-                        $("#sum").attr("value", result[i]);
+                        $("#sum").attr("value", result[i].substring(7).trim());
                     }
                 }
                 $("#seats").attr("value", document.cookie.toString());

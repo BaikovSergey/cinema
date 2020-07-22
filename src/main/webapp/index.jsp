@@ -57,7 +57,7 @@
         function updateSeats() {
             $.ajax({
                 type: "GET",
-                url: "http://localhost:8080/index/seats.do"
+                url: "http://localhost:8080/index.do/seats.do"
                 }).done(function(data) {
                     var resp = $.parseJSON(data);
                     $.each(resp, function (i, seat) {
