@@ -1,8 +1,8 @@
-package ru.job4j.servlets.application;
+package ru.job4j.application;
 
-import ru.job4j.servlets.domain.Account;
-import ru.job4j.servlets.domain.MovieSession;
-import ru.job4j.servlets.persistence.PsqlStore;
+import ru.job4j.domain.Account;
+import ru.job4j.domain.MovieSession;
+import ru.job4j.persistence.PsqlStore;
 
 
 public class TicketSeller implements Seller {

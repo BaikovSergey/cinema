@@ -1,7 +1,7 @@
-package ru.job4j.servlets.application;
+package ru.job4j.application;
 
-import ru.job4j.servlets.domain.Account;
-import ru.job4j.servlets.domain.MovieSession;
+import ru.job4j.domain.Account;
+import ru.job4j.domain.MovieSession;
 
 public interface Seller {
     MovieSession getMovieSession();

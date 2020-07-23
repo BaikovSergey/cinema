@@ -1,7 +1,7 @@
-package ru.job4j.servlets.presentation;
+package ru.job4j.presentation;
 
-import ru.job4j.servlets.application.TicketSeller;
-import ru.job4j.servlets.domain.Seat;
+import ru.job4j.application.TicketSeller;
+import ru.job4j.domain.Seat;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -11,7 +11,6 @@ import java.io.IOException;
 import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
 import java.nio.charset.StandardCharsets;
-import java.util.ArrayList;
 import java.util.List;
 
 public class BoughtSeatsServlet extends HttpServlet {

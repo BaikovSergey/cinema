@@ -1,7 +1,7 @@
-package ru.job4j.servlets.persistence;
+package ru.job4j.persistence;
 
-import ru.job4j.servlets.domain.Account;
-import ru.job4j.servlets.domain.MovieSession;
+import ru.job4j.domain.Account;
+import ru.job4j.domain.MovieSession;
 
 import java.util.Collection;
 

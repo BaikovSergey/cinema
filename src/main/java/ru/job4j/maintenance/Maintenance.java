@@ -1,9 +1,8 @@
-package ru.job4j.servlets.maintenance;
+package ru.job4j.maintenance;
 
 import org.json.JSONArray;
-import org.json.JSONObject;
-import ru.job4j.servlets.domain.Seat;
-import ru.job4j.servlets.persistence.PsqlStore;
+import ru.job4j.domain.Seat;
+import ru.job4j.persistence.PsqlStore;
 
 import java.util.ArrayList;
 import java.util.List;

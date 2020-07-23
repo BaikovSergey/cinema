@@ -1,8 +1,8 @@
-package ru.job4j.servlets.presentation;
+package ru.job4j.presentation;
 
 import org.json.JSONArray;
-import ru.job4j.servlets.application.TicketSeller;
-import ru.job4j.servlets.domain.MovieSession;
+import ru.job4j.application.TicketSeller;
+import ru.job4j.domain.MovieSession;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;

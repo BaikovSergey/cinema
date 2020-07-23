@@ -1,11 +1,10 @@
-package ru.job4j.servlets.persistence;
+package ru.job4j.persistence;
 
 import org.apache.commons.dbcp2.BasicDataSource;
 import org.json.JSONArray;
-import org.json.JSONObject;
-import ru.job4j.servlets.domain.Account;
-import ru.job4j.servlets.domain.MovieSession;
-import ru.job4j.servlets.domain.Seat;
+import ru.job4j.domain.Account;
+import ru.job4j.domain.MovieSession;
+import ru.job4j.domain.Seat;
 
 import java.io.BufferedReader;
 import java.io.FileReader;

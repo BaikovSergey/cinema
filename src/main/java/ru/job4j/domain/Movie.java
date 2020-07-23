@@ -1,4 +1,4 @@
-package ru.job4j.servlets.domain;
+package ru.job4j.domain;
 
 public class Movie {
 
